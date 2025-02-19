@@ -1,0 +1,838 @@
+local TweenService = game:GetService("TweenService")
+
+print("Starting...")
+loadstring(game:HttpGet("https://pastebin.com/raw/T0tDBtab", true))()
+loadstring(game:HttpGet("https://pastebin.com/raw/xheByBQY", true))()
+loadstring(game:HttpGet("https://pastebin.com/raw/nmPRRacc", true))()
+print("Updating...")
+if ID == nil then
+	ID = "nil"
+end
+local VersionKey = "vRQ52Md7"
+loadstring(game:HttpGet("https://pastebin.com/raw/"..VersionKey, true))()
+print("Checking Version...")
+local LoadedVersion = 1
+local current = ID
+spawn(function()
+	while wait(15) do
+		loadstring(game:HttpGet("https://pastebin.com/raw/"..VersionKey, true))()
+		current = ID
+	end
+end)
+
+if current == LoadedVersion then
+	spawn(function()
+		local folder = game:GetService('ReplicatedStorage'):WaitForChild('AurasFolder', 30)
+		local cp = game:GetService("ContentProvider")
+		folder.DescendantAdded:Connect(function(child)
+			cp:PreloadAsync({child})
+		end)
+		cp:PreloadAsync(folder:GetDescendants())
+	end)
+
+	print("Loaded Script!")
+	local player = game.Players.LocalPlayer
+	local UIS = game:GetService("UserInputService")
+	local debounceZ = false
+	local debounceH = false
+	local debounceT = false
+	local debounceY = false
+
+	local TotalStop = false
+
+	local StopTrail = false
+	spawn(function()
+		local player = game.Players.LocalPlayer
+		local character = player.Character or player.CharacterAdded:Wait()
+		local TweenService = game:GetService("TweenService")
+
+		-- shits to load the trail
+		local function createTrailPart(position)
+			local trailPart = Instance.new("Part")
+			trailPart.Size = Vector3.new(1, 1, 1)
+			trailPart.Color = Color3.fromRGB(42, 109, 255)
+			trailPart.Material = Enum.Material.Neon
+			trailPart.Anchored = true
+			trailPart.CanCollide = false
+			trailPart.Transparency = 0.5
+			trailPart.Position = position
+			trailPart.Parent = workspace
+			return trailPart
+		end
+
+
+		local function createTween(part, targetPosition)
+			local tweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+			local tween = TweenService:Create(part, tweenInfo, {Position = targetPosition})
+			tween:Play()
+		end
+
+		local function updateTrail()
+			local trailParts = {}
+			local trailLength = 10
+
+
+			for i = 1, trailLength do
+				local part = createTrailPart(character.HumanoidRootPart.Position)
+				table.insert(trailParts, part)
+			end
+
+
+			while not StopTrail do
+				pcall(function()
+					for i = trailLength, 2, -1 do
+
+						createTween(trailParts[i], trailParts[i - 1].Position)
+					end
+
+					createTween(trailParts[1], character.HumanoidRootPart.Position - character.HumanoidRootPart.CFrame.LookVector * 2)
+
+					for i = 1, trailLength do
+						trailParts[i].Size = Vector3.new(1, 1, 1) * (1 - (i - 1) / trailLength)  -- smth
+						trailParts[i].Transparency = 0.5 * (1 - (i - 1) / trailLength) -- smth
+					end
+				end)
+				wait(0.1)
+			end
+
+			for i,v in pairs(trailParts) do
+				v:Destroy()
+			end
+		end
+
+		updateTrail()
+	end)
+
+
+	local function stopAndDestroyTierAnimations()
+		if player.Character then
+			local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+			if humanoid and humanoid.Animator then
+				for _, track in pairs(humanoid.Animator:GetPlayingAnimationTracks()) do
+					local weight = track.Priority.Value -- Get the animation priority (Tier level)
+					if weight == Enum.AnimationPriority.Action3 or weight == Enum.AnimationPriority.Action4 then
+						track:Stop()
+						track:Destroy()
+						print("Destroyed tier animation:", track)
+					end
+				end
+			end
+		end
+	end
+
+	
+	local ZAbilityClone = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities["1"]:Clone()
+	ZAbilityClone.Parent = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities
+	ZAbilityClone.LayoutOrder = -4
+	ZAbilityClone.Keybind.Text = "Z"
+	ZAbilityClone.Timer.Text = "Precision Shot"
+	ZAbilityClone.ActualTimer.Text = ""
+	ZAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, 1)
+		
+	local HAbilityClone = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities["1"]:Clone()
+	HAbilityClone.Parent = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities
+	HAbilityClone.LayoutOrder = -3
+	HAbilityClone.Keybind.Text = "H"
+	HAbilityClone.Timer.Text = "Fake Shot"
+	HAbilityClone.ActualTimer.Text = ""
+	HAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, 1)
+	
+	local TAbilityClone = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities["1"]:Clone()
+	TAbilityClone.Parent = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities
+	TAbilityClone.LayoutOrder = -2
+	TAbilityClone.Keybind.Text = "T"
+	TAbilityClone.Timer.Text = "Two Gun Volley"
+	TAbilityClone.ActualTimer.Text = ""
+	TAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, 1)
+	
+	local YAbilityClone = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities["1"]:Clone()
+	YAbilityClone.Parent = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities
+	YAbilityClone.LayoutOrder = -1
+	YAbilityClone.Keybind.Text = "Y"
+	YAbilityClone.Timer.Text = "MetaVision"
+	YAbilityClone.ActualTimer.Text = ""
+	YAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, 1)
+	
+	local PAbilityClone = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities["1"]:Clone()
+	PAbilityClone.Parent = game.Players.LocalPlayer.PlayerGui.InGameUI.Bottom.Abilities
+	PAbilityClone.LayoutOrder = 5
+	PAbilityClone.Keybind.Text = "P"
+	PAbilityClone.Timer.Text = "Stop Isagi V2"
+	PAbilityClone.ActualTimer.Text = ""
+	PAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, 0)
+	
+	local CooldownAbility1 = 5
+	local UsedAbility1 = 0
+
+	local CooldownAbility2 = 1.5
+	local UsedAbility2 = 0
+
+	local CooldownAbility3 = 5
+	local UsedAbility3 = 0
+
+	local CooldownAbility4 = 40
+	local UsedAbility4 = 0
+	
+	local NoCD = false
+	if game:GetService("MarketplaceService"):UserOwnsGamePassAsync(player.UserId, 1070276755) then
+		print("No Cooldowns")
+		NoCD = true
+		CooldownAbility1 = .25
+		CooldownAbility2 = .25
+		CooldownAbility3 = .25
+		CooldownAbility4 = .25
+	end
+	
+	spawn(function()
+		while wait() do
+			local remainingTime = math.clamp((UsedAbility1 - tick()) / CooldownAbility1, 0, 1)
+			ZAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, -remainingTime + 1)
+
+			local remainingTime = math.clamp((UsedAbility2 - tick()) / CooldownAbility2, 0, 1)
+			HAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, -remainingTime + 1)
+
+			local remainingTime = math.clamp((UsedAbility3 - tick()) / CooldownAbility3, 0, 1)
+			TAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, -remainingTime + 1)
+
+			local remainingTime = math.clamp((UsedAbility4 - tick()) / CooldownAbility4, 0, 1)
+			YAbilityClone.Cooldown.UIGradient.Offset = Vector2.new(0, -remainingTime + 1)
+		end
+	end)
+
+	local InAbility = ""
+
+	local currentgraphic = UserSettings().GameSettings.SavedQualityLevel.Value
+	spawn(function()
+		while wait(1) do
+			pcall(function()
+				local graphic = UserSettings().GameSettings.SavedQualityLevel.Value
+				if graphic == 0 or graphic == nil then
+					graphic = 7
+				end
+				if currentgraphic ~= graphic then
+					currentgraphic = graphic
+				end
+			end)
+		end
+	end)
+
+	local function copyParticles(model, othermodel, Timed)
+		if Timed == nil then Timed = 15 end
+		local particles = {}
+		pcall(function()
+			for _, obj in ipairs(model:GetChildren()) do
+				if othermodel:FindFirstChild(obj.Name) then
+					local newparent = othermodel:FindFirstChild(obj.Name)
+					for i,v in pairs(obj:GetChildren()) do
+						if v:IsA("ParticleEmitter") then
+							local newObj = v:Clone()
+							newObj.Parent = newparent
+							newObj.Rate = newObj.Rate * 10 / tonumber(currentgraphic)
+							if Timed then
+								game.Debris:AddItem(newObj, Timed)
+							else
+								table.insert(particles, newObj)
+							end
+						end
+					end
+				end
+			end
+			if model.Name == othermodel.Name then
+				for i,v in pairs(model:GetChildren()) do
+					if v:IsA("ParticleEmitter") then
+						local newObj = v:Clone()
+						newObj.Parent = othermodel
+						newObj.Rate = newObj.Rate * 10 / tonumber(currentgraphic)
+						if Timed then
+							game.Debris:AddItem(newObj, Timed)
+						else
+							table.insert(particles, newObj)
+						end
+					end
+				end
+			end
+		end)
+		return particles
+	end
+
+	local function applyVelocity(player, direction, speed, duration)
+		local character = player.Character
+		if not character then return end
+		local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+		if not humanoidRootPart then return end
+
+		local bodyVelocity = Instance.new("BodyVelocity")
+		bodyVelocity.MaxForce = Vector3.new(100000, 0, 100000)
+		bodyVelocity.Velocity = direction * speed
+		bodyVelocity.Parent = humanoidRootPart
+
+		game.Debris:AddItem(bodyVelocity, duration)
+	end
+	
+	local function findBall()
+		local ball = workspace:FindFirstChild("Football")
+		if not ball then
+			for _, plr in pairs(game.Players:GetPlayers()) do
+				if plr.Character then
+					local possibleBall = plr.Character:FindFirstChild("Football")
+					if possibleBall then
+						return possibleBall
+					end
+				end
+			end
+		end
+		return ball
+	end
+	
+	local function hasBall()
+		local football = player.Character and player.Character:FindFirstChild("Football")
+		return football ~= nil
+	end
+
+	local function playSound(soundId, vol, position)
+		spawn(function()
+			local sound = Instance.new("Sound")
+			sound.Name = "CustomSound"
+			sound.SoundId = "rbxassetid://"..soundId
+			sound.Volume = vol or 1
+			sound.PlayOnRemove = false
+			sound.Looped = false
+			sound.TimePosition = position or 0
+			sound.Parent = game.SoundService
+			sound:Play()
+			sound.Ended:Connect(function()
+				sound:Destroy()
+			end)
+		end)
+	end
+
+	local function ZAbility()
+		if debounceZ or debounceH or debounceT or debounceY or TotalStop then return end
+		if tick() < UsedAbility1 then return end
+		debounceZ = true
+		UsedAbility1 = tick() + CooldownAbility1
+		if not hasBall() then 
+			UsedAbility2 = tick() + .25
+			debounceZ = false
+			return 
+		end
+		pcall(function()
+			local character = player.Character or player.CharacterAdded:Wait()
+			local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+			local particles = copyParticles(game.ReplicatedStorage.AurasFolder.Lavinho, game.Players.LocalPlayer.Character)
+			InAbility = "Precision Shot"
+
+			stopAndDestroyTierAnimations()
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			local animation = Instance.new("Animation")
+			animation.AnimationId = "rbxassetid://18668827116"
+			local animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator", humanoid)
+			local animationTrack = animator:LoadAnimation(animation)
+			animationTrack.Priority = Enum.AnimationPriority.Action4
+			animationTrack:Play()
+			animation:Destroy()
+
+			wait(0.15)
+			pcall(function()
+				wait(0.05)
+				local folder = game:GetService('ReplicatedStorage'):FindFirstChild('AurasFolder')
+				local effect = folder:FindFirstChild("GodShot").Dash:Clone()
+				effect.CFrame = humanoidRootPart.CFrame * CFrame.new(0,-2,-2)
+				effect.Parent = workspace
+				for i,v in pairs(effect:GetDescendants()) do
+					if v:IsA("ParticleEmitter") then
+						if v:GetAttribute("EmitCount") then
+							if v:IsA("ParticleEmitter") then
+								v:Emit(v:GetAttribute("EmitCount"))
+							end
+						end
+					end
+				end
+				game.Debris:AddItem(effect, 2)
+			end)
+			local args = {
+				[1] = 150,
+				[4] = Vector3.new(-0.9990726709365845, -0.5, -0.015148991718888283)
+			}
+
+			game.ReplicatedStorage.Packages.Knit.Services.BallService.RE.Shoot:FireServer(unpack(args))
+			InAbility = ""
+		end)
+		debounceZ = false
+	end
+
+	local function HAbility()
+		if debounceZ or debounceH or debounceT or debounceY or TotalStop then return end
+		if tick() < UsedAbility2 then return end
+		debounceH = true
+		UsedAbility2 = tick() + CooldownAbility2
+		pcall(function()
+			local character = player.Character or player.CharacterAdded:Wait()
+			local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+			local particles = copyParticles(game.ReplicatedStorage.AurasFolder.Lavinho, game.Players.LocalPlayer.Character)
+			InAbility = "Fake Shot"
+
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			stopAndDestroyTierAnimations()
+			local animation = Instance.new("Animation")
+			animation.AnimationId = "rbxassetid://18668827116"
+			local animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator", humanoid)
+			local animationTrack = animator:LoadAnimation(animation)
+			animationTrack.Priority = Enum.AnimationPriority.Action4
+			animationTrack:Play()
+			animation:Destroy()
+			wait(0.3)
+			InAbility = ""
+		end)
+		debounceH = false
+	end
+	
+	local function TAbility()
+		if debounceZ or debounceH or debounceT or debounceY or TotalStop then return end
+		if tick() < UsedAbility3 then return end
+		debounceT = true
+		UsedAbility3 = tick() + CooldownAbility3
+		if not hasBall() then 
+			UsedAbility3 = tick() + .25
+			debounceT = false
+			return 
+		end
+		pcall(function()
+			local player = game.Players.LocalPlayer
+			local character = player.Character or player.CharacterAdded:Wait()
+			local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			InAbility = ""
+			stopAndDestroyTierAnimations()
+			local animation1 = Instance.new("Animation")
+			animation1.AnimationId = "rbxassetid://18930210385"
+			local animator = humanoid:FindFirstChildOfClass("Animator") or Instance.new("Animator", humanoid)
+			local animationTrack1 = animator:LoadAnimation(animation1)
+			animationTrack1.Priority = Enum.AnimationPriority.Action3
+			animationTrack1:Play()
+			animationTrack1:AdjustSpeed(0.6)
+			game:GetService("ReplicatedStorage").Packages.Knit.Services.BallService.RE.Dribble:FireServer()
+			wait(1.2)
+
+			local animation2 = Instance.new("Animation")
+			animation2.AnimationId = "rbxassetid://109716854445372"
+			local animationTrack2 = animator:LoadAnimation(animation2)
+			animationTrack2.Priority = Enum.AnimationPriority.Action4
+			local sound = Instance.new("Sound")
+			sound.SoundId = "rbxassetid://9114551929"
+			sound.Parent = humanoidRootPart
+
+			animationTrack2:Play()
+			animationTrack2:AdjustSpeed(5)
+			animationTrack2.TimePosition = 7
+			spawn(function()
+				wait(0.5)
+				pcall(function()
+					local player = game.Players.LocalPlayer
+					local character = player.Character or player.CharacterAdded:Wait()
+					local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+					local folder = game:GetService('ReplicatedStorage'):FindFirstChild('AurasFolder')
+					local effect = folder:FindFirstChild("BlueForward").Dash:Clone()
+					local spawnOffset = 16
+					local targetPosition = (humanoidRootPart.CFrame * CFrame.new(0, 0, 5)).Position
+					local x,y,z = game:GetService("Workspace").Camera.CFrame:ToOrientation()
+					local OldCFrame = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame
+					local NewCFrame = CFrame.fromOrientation(x,y,z) + OldCFrame.Position
+					local direction = (targetPosition - NewCFrame.Position).Unit
+					effect.CFrame = CFrame.new(humanoidRootPart.Position, humanoidRootPart.Position + direction) * CFrame.new(0, 1.5, spawnOffset)
+					effect.Parent = workspace
+					for _,v in pairs(effect:GetDescendants()) do
+						if v:IsA("ParticleEmitter") and v:GetAttribute("EmitCount") then
+							v:Emit(v:GetAttribute("EmitCount"))
+						end
+					end
+					game.Debris:AddItem(effect, 2)
+				end)
+			end)
+			wait(0.5)
+			sound:Play()
+
+			local args = {
+				[1] = 240,
+				[4] = Vector3.new(-0.9990726709365845, -0.5, -0.015148991718888283)
+			}
+
+			game.ReplicatedStorage.Packages.Knit.Services.BallService.RE.Shoot:FireServer(unpack(args))
+			InAbility = ""
+		end)
+		debounceT = false
+	end
+	
+	
+	local MetaVision = false
+
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+	local localPlayer = Players.LocalPlayer
+	
+	local guiParent = game:GetService('CoreGui')
+	local newScreenGui = Instance.new('ScreenGui')
+	newScreenGui.Name = "Map"
+	newScreenGui.Parent = guiParent
+
+	local Frame = Instance.new("Frame")
+	Frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+	Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Frame.BorderSizePixel = 0
+	Frame.Position = UDim2.new(0.130058, 0, 0.861809, 0)
+	Frame.Size = UDim2.new(0, 374, 0, 196)
+	Frame.ZIndex = 0
+	Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+	Frame.Parent = newScreenGui
+	Frame.Visible = false
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.CornerRadius = UDim.new(0, 14)
+	UICorner.Parent = Frame
+
+	local MapFrame = Instance.new("ImageLabel")
+	MapFrame.Name = "MapFrame"
+	MapFrame.BackgroundColor3 = Color3.fromRGB(157, 255, 164)
+	MapFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	MapFrame.BorderSizePixel = 0
+	MapFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+	MapFrame.Size = UDim2.new(0.95, 0, 0.9, 0)
+	MapFrame.Image = "rbxassetid://85943431316779"
+	MapFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+	MapFrame.Parent = Frame
+	MapFrame.ClipsDescendants = true
+
+	local UICorner1 = Instance.new("UICorner")
+	UICorner1.CornerRadius = UDim.new(0, 5)
+	UICorner1.Parent = MapFrame
+
+	local fieldMinX, fieldMaxX = -233, 309
+	local fieldMinZ, fieldMaxZ = -252, 152
+
+	local function worldToMapPosition(pos)
+		local mapWidth = MapFrame.AbsoluteSize.X
+		local mapHeight = MapFrame.AbsoluteSize.Y
+		local normalizedX = (pos.X - fieldMinX) / (fieldMaxX - fieldMinX)
+		normalizedX = 1 - normalizedX
+		local normalizedZ = (pos.Z - fieldMinZ) / (fieldMaxZ - fieldMinZ)
+		local mapPosX = normalizedX * mapWidth
+		local mapPosY = (1 - normalizedZ) * mapHeight
+		return mapPosX, mapPosY
+	end
+
+	local playerIndicators = {}
+
+	local function createIndicator(player)
+		local dot = Instance.new("Frame")
+		dot.Size = UDim2.new(0.022*1.1, 0, 0.044*1.1, 0)
+		dot.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+		dot.BorderSizePixel = 0
+		dot.AnchorPoint = Vector2.new(0.5, 0.5)
+		dot.Name = player.Name .. "_Dot"
+		dot.Parent = MapFrame
+		dot.ZIndex = 1
+		local dotCorner = Instance.new("UICorner")
+		dotCorner.CornerRadius = UDim.new(0, 5)
+		dotCorner.Parent = dot
+
+		local nameLabel = Instance.new("TextLabel")
+		nameLabel.Size = UDim2.new(0.2, 0, 0.15, 0)
+		nameLabel.BackgroundTransparency = 1
+		nameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		nameLabel.TextScaled = true
+		nameLabel.Font = Enum.Font.SourceSans
+		nameLabel.Text = player.Name
+		nameLabel.AnchorPoint = Vector2.new(0.5, 1)
+		nameLabel.Parent = MapFrame
+		nameLabel.ZIndex = 1
+		nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
+		nameLabel.TextStrokeTransparency = 0
+
+		playerIndicators[player] = {dot = dot, nameLabel = nameLabel}
+	end
+
+
+	local function removeIndicator(player)
+		if playerIndicators[player] then
+			playerIndicators[player].dot:Destroy()
+			playerIndicators[player].nameLabel:Destroy()
+			playerIndicators[player] = nil
+		end
+	end
+
+	Players.PlayerAdded:Connect(createIndicator)
+	Players.PlayerRemoving:Connect(removeIndicator)
+
+	for _, player in ipairs(Players:GetPlayers()) do
+		createIndicator(player)
+	end
+
+	local ballIndicator = nil
+
+	local function createBallIndicator()
+		if ballIndicator then
+			ballIndicator:Destroy()
+		end
+		ballIndicator = Instance.new("Frame")
+		ballIndicator.Size = UDim2.new(0.022*0.8, 0, 0.044*0.8, 0)
+		ballIndicator.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+		ballIndicator.BorderSizePixel = 0
+		ballIndicator.AnchorPoint = Vector2.new(0.5, 0.5)
+		ballIndicator.Name = "BallDot"
+		ballIndicator.Parent = MapFrame
+		ballIndicator.ZIndex = 2
+		local ballCorner = Instance.new("UICorner")
+		ballCorner.CornerRadius = UDim.new(0, 5)
+		ballCorner.Parent = ballIndicator
+	end
+
+	local predictionTime = 2
+	local kickForce = 80
+	local gravity = Vector3.new(0, -workspace.Gravity, 0)
+	local isBallKicked = false  
+
+	local function predictBallPosition(ball, time)
+		local initialPosition = ball.Position
+		local initialVelocity = ball.Velocity
+		local predictedPosition = initialPosition + initialVelocity * time + 0.5 * gravity * time^2
+		return predictedPosition
+	end
+
+	local function visualizeTrajectory(ball, duration, interval)
+		for t = 0, duration, interval do
+			local predictedPosition = predictBallPosition(ball, t)
+			local part = Instance.new("Part")
+			part.Size = Vector3.new(0.85, 0.85, 0.85)
+			part.Shape = Enum.PartType.Ball
+			part.Material = Enum.Material.Neon
+			part.Position = predictedPosition
+			part.Anchored = true
+			part.CanCollide = false
+			part.Color = Color3.fromRGB(255, 255, 0)
+			part.Parent = workspace
+			game.Debris:AddItem(part, 0.05)
+		end
+	end
+
+	local function applyKick(ball)
+		if player and player:FindFirstChild("HumanoidRootPart") then
+			local facingDirection = player.HumanoidRootPart.CFrame.LookVector
+			if ball then
+				ball.Velocity = facingDirection * kickForce
+				isBallKicked = true
+			end
+		end
+	end
+	
+	local function showDribbledMessage(player)
+		local character = player.Character
+		if character and character:FindFirstChild("Head") then
+			wait(0.9)
+			local billboard = Instance.new("BillboardGui")
+			game.Debris:AddItem(billboard,.3)
+			billboard.Parent = character.Head
+			billboard.Adornee = character.Head
+			billboard.Size = UDim2.new(0, 200, 0, 50)
+			billboard.StudsOffset = Vector3.new(0, 2, 0)
+
+			local textLabel = Instance.new("TextLabel")
+			textLabel.Parent = billboard
+			textLabel.Size = UDim2.new(1, 0, 1, 0)
+			textLabel.Text = "TACKLE NOW"
+			textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+			textLabel.TextStrokeTransparency = 0.8
+			textLabel.BackgroundTransparency = 1
+			textLabel.TextSize = 20
+			textLabel.TextAlign = Enum.TextAnchor.MiddleCenter
+		end
+	end
+
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local DribbleRemote = ReplicatedStorage.Packages.Knit.Services.BallService.RE.Dribble
+	
+	RunService.Heartbeat:Connect(function()
+		if not MetaVision then return end
+
+		local ball = findBall()
+		if ball and not isBallKicked then
+			applyKick(ball)
+		end
+
+		if ball and ball.Parent == workspace and ball.Velocity.Magnitude >= 1 then
+			visualizeTrajectory(ball, predictionTime, 0.1)
+		end
+	end)
+	
+	RunService.Heartbeat:Connect(function()
+		if not MetaVision then return end
+
+		for _, player in pairs(Players:GetPlayers()) do
+			spawn(function()
+				pcall(function()
+					local character = player.Character
+
+					local valuesFolder = character:FindFirstChild("Values")
+
+					local SlidingValue = valuesFolder:FindFirstChild("Sliding")
+					local DribblingValue = valuesFolder:FindFirstChild("Dribbling")
+
+					if SlidingValue and SlidingValue.Value then
+						DribbleRemote:FireServer()
+					end
+
+					if DribblingValue and DribblingValue.Value then
+						showDribbledMessage(player)
+					end
+				end)
+			end)
+		end
+	end)
+	
+	local mapWidth, mapHeight = MapFrame.AbsoluteSize.X, MapFrame.AbsoluteSize.Y
+	local ballIndicator = createBallIndicator()
+
+	RunService.RenderStepped:Connect(function()
+		Frame.Visible = MetaVision
+		if not MetaVision then return end
+
+		for _, player in pairs(Players:GetPlayers()) do
+			local data = playerIndicators[player]
+			if not data then continue end
+
+			local character = player.Character
+			local rootPart = character and character:FindFirstChild("HumanoidRootPart")
+			if not rootPart then continue end
+
+			local worldPos = rootPart.Position
+			if worldPos.Y <= 4 then
+				data.dot.Visible = false
+				data.nameLabel.Visible = false
+				continue
+			end
+
+			local isLocalPlayer = player == localPlayer
+			local teamColor = if isLocalPlayer then Color3.new(0, 0, 0)
+				elseif player.Team and player.Team.Name == "Away" then Color3.new(1, 1, 0)
+				elseif player.Team and player.Team.Name == "Home" then Color3.new(0, 0, 1)
+				else nil
+
+			if teamColor then
+				data.dot.BackgroundColor3 = teamColor
+				local mapX, mapY = worldToMapPosition(worldPos)
+				mapX = math.clamp(mapX, 0, mapWidth)
+				mapY = math.clamp(mapY, 0, mapHeight)
+
+				data.dot.Position = UDim2.new(0, mapX, 0, mapY)
+				data.nameLabel.Position = UDim2.new(0, mapX, 0, mapY - (MapFrame.AbsoluteSize.Y * 0.02))
+
+				data.dot.Visible = true
+				data.nameLabel.Visible = true
+			else
+				data.dot.Visible = false
+				data.nameLabel.Visible = false
+			end
+		end
+
+		local ball = findBall()
+		local ballPos = ball and ball.Position
+		if ballPos and ballPos.Y > 4 then
+			local mapX, mapY = worldToMapPosition(ballPos)
+			mapX = math.clamp(mapX, 0, mapWidth)
+			mapY = math.clamp(mapY, 0, mapHeight)
+			ballIndicator.Position = UDim2.new(0, mapX, 0, mapY)
+			ballIndicator.Visible = true
+		else
+			ballIndicator.Visible = false
+		end
+	end)
+	
+	local function YAbility()
+		if debounceZ or debounceH or debounceT or debounceY or TotalStop then return end
+		if tick() < UsedAbility4 then return end
+		debounceY = true
+		UsedAbility4 = tick() + CooldownAbility4
+		spawn(function()
+			InAbility = "MetaVision"
+			MetaVision = true
+			SetupVisualLocateBall()
+			if NoCD then
+				UsedAbility4 = tick() + 1000000
+				wait(1000000)
+			end
+			wait(30)
+			MetaVision = false
+			InAbility = ""
+		end)
+		wait(0.2)
+		debounceY = false
+	end
+
+	local function DestroyScript()
+		print("Destroying...")
+		local c1 = tick() + 50
+		repeat
+			debounceH = true
+			debounceZ = true
+			debounceT = true
+			debounceY = true
+			StopTrail = true
+			TotalStop = true
+			MetaVision = false
+			newScreenGui:Destroy()
+			ZAbilityClone:Destroy()
+			HAbilityClone:Destroy()
+			TAbilityClone:Destroy()
+			YAbilityClone:Destroy()
+			PAbilityClone:Destroy()
+			wait(.5)
+		until c1 < tick()
+	end
+
+	UIS.InputBegan:Connect(function(input, gameProcessedEvent)
+		if gameProcessedEvent then return end
+
+		if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Z and HAbilityClone and HAbilityClone.Parent then
+			ZAbility()
+		end
+		if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.H and ZAbilityClone and ZAbilityClone.Parent then
+			HAbility()
+		end
+		if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.T and TAbilityClone and TAbilityClone.Parent then
+			TAbility()
+		end
+		if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.Y and YAbilityClone and YAbilityClone.Parent then
+			YAbility()
+		end
+		if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.P and PAbilityClone and PAbilityClone.Parent then
+			DestroyScript()
+		end
+	end)
+
+	ZAbilityClone.MouseButton1Click:Connect(function()
+		ZAbility()
+	end)
+	HAbilityClone.MouseButton1Click:Connect(function()
+		HAbility()
+	end)
+	TAbilityClone.MouseButton1Click:Connect(function()
+		TAbility()
+	end)
+	YAbilityClone.MouseButton1Click:Connect(function()
+		YAbility()
+	end)
+	PAbilityClone.MouseButton1Click:Connect(function()
+		DestroyScript()
+	end)
+
+	spawn(function()
+		repeat 
+			wait()
+		until current ~= LoadedVersion
+		print("Version Incorrect")
+		DestroyScript()
+	end)
+else
+	print("Wrong Version")
+end
