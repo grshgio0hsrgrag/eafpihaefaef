@@ -1,1 +1,4 @@
+if Button == nil then
+  Button = "T"
+end
 print(Button)
