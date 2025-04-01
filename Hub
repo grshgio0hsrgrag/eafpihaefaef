@@ -147,7 +147,7 @@ end
 Settings = game:service'HttpService':JSONEncode(readfile(Name))
 end)
 
-local LibName = tostring(math.random(1, 100))..tostring(math.random(1,50))..tostring(math.random(1, 100))
+local LibName = tostring(math.random(1, 100000))..tostring(math.random(1,50000))..tostring(math.random(1, 100000))
 
 function Kavo:ToggleUI()
     if game.CoreGui[LibName].Enabled then
@@ -353,14 +353,6 @@ function Kavo.CreateLib(kavName, themeList)
     infoContainer.ClipsDescendants = true
     infoContainer.Position = UDim2.new(0.299047619, 0, 0.874213815, 0)
     infoContainer.Size = UDim2.new(0, 368, 0, 33)
-
-    function Kavo:ToggleUI()
-        if ScreenGui.Enabled then
-            ScreenGui.Enabled = false
-        else
-            ScreenGui.Enabled = true
-        end
-    end
     
     coroutine.wrap(function()
         while wait() do
@@ -1975,6 +1967,8 @@ function Kavo.CreateLib(kavName, themeList)
                             togName_2.Text = a.KeyCode.Name
                             oldKey = a.KeyCode.Name;
                         end
+                        wait()
+                        Holding = false
                         local c = sample:Clone()
                         c.Parent = keybindElement
                         local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -1990,8 +1984,6 @@ function Kavo.CreateLib(kavName, themeList)
                         c.ImageTransparency = c.ImageTransparency + 0.05
                             wait(len / 12)
                         end
-                        wait(0.05)
-                        Holding = false
                     else
                         for i,v in next, infoContainer:GetChildren() do
                             Utility:TweenObject(v, {Position = UDim2.new(0,0,2,0)}, 0.2)
