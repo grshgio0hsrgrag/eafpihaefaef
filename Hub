@@ -2001,7 +2001,8 @@ function Kavo.CreateLib(kavName, themeList)
                     end
                 end)
         
-                game:GetService("UserInputService").InputBegan:connect(function(current, ok) 
+                game:GetService("UserInputService").InputBegan:connect(function(current, ok)
+                    if Holding == true then return end
                     if not ok then 
                         if current.KeyCode.Name == oldKey then 
                             callback()
