@@ -1,3 +1,4 @@
+print("Loading Hub Settings...")
 local Kavo = {}
 
 local tween = game:GetService("TweenService")
@@ -1970,7 +1971,6 @@ function Kavo.CreateLib(kavName, themeList)
                         Holding = true
                         togName_2.Text = ". . ."
                         local a, b = game:GetService('UserInputService').InputBegan:wait();
-                        Holding = false
                         if a.KeyCode.Name ~= "Unknown" then
                             togName_2.Text = a.KeyCode.Name
                             oldKey = a.KeyCode.Name;
@@ -1990,6 +1990,8 @@ function Kavo.CreateLib(kavName, themeList)
                         c.ImageTransparency = c.ImageTransparency + 0.05
                             wait(len / 12)
                         end
+                        wait(0.05)
+                        Holding = false
                     else
                         for i,v in next, infoContainer:GetChildren() do
                             Utility:TweenObject(v, {Position = UDim2.new(0,0,2,0)}, 0.2)
