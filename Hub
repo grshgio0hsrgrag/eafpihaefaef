@@ -5,6 +5,7 @@ local tween = game:GetService("TweenService")
 local tweeninfo = TweenInfo.new
 local input = game:GetService("UserInputService")
 local run = game:GetService("RunService")
+local fSetClipboard = setclipboard or toclipboard
 
 CompleteStopScript = false
 
@@ -204,6 +205,7 @@ function Kavo.CreateLib(kavName, themeList)
     local coverup = Instance.new("Frame")
     local title = Instance.new("TextLabel")
     local close = Instance.new("ImageButton")
+    local discord = Instance.new("ImageButton")
     local MainSide = Instance.new("Frame")
     local sideCorner = Instance.new("UICorner")
     local coverup_2 = Instance.new("Frame")
@@ -302,6 +304,17 @@ function Kavo.CreateLib(kavName, themeList)
 		}):Play()
         wait(1)
         ScreenGui:Destroy()
+    end)
+
+    discord.Name = "discord"
+    discord.Parent = MainHeader
+    discord.BackgroundTransparency = 1.000
+    discord.Position = UDim2.new(0.895, 0, 0.137999997, 0)
+    discord.Size = UDim2.new(0, 30, 0, 21)
+    discord.ZIndex = 2
+    discord.Image = "rbxassetid://74660754900520"
+    discord.MouseButton1Click:Connect(function()
+        fSetClipboard("https://discord.gg/wfBPYBnDxX")
     end)
 
     MainSide.Name = "MainSide"
