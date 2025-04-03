@@ -968,6 +968,33 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.TextColor3 = themeList.TextColor
                 togName.TextSize = 14.000
                 togName.TextXAlignment = Enum.TextXAlignment.Left
+                local Type = typeof(btnInfoColor)
+                if typeof(btnInfoColor) == "table" then
+                    if typeof(btnInfoColor[1]) == "ColorSequence" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor[1]
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
+                        UIGradient.Parent = togName
+                        if typeof(btnInfoColor[2]) == "number" then
+                            UIGradient.Rotation = btnInfoColor[2]
+                        end
+                        if typeof(btnInfoColor[3]) == "Color3" then
+                            togName.TextColor3 = btnInfoColor[3]
+                        end
+                        if typeof(btnInfoColor[4]) == "Vector2" then
+                            UIGradient.Offset = btnInfoColor[4]
+                        end
+                    end
+                elseif typeof(btnInfoColor) == "Color3" then
+                    togName.TextColor3 = btnInfoColor
+                elseif typeof(btnInfoColor) == "ColorSequence" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
+                    UIGradient.Parent = togName
+                else
+                    togName.TextColor3 = themeList.TextColor
+                end
 
                 local moreInfo = Instance.new("TextLabel")
                 local UICorner = Instance.new("UICorner")
@@ -1067,6 +1094,9 @@ function Kavo.CreateLib(kavName, themeList)
                         viewDe = false
                     end
                 end)
+
+                local CustomType = typeof(btnInfoColor)
+                if CustomType == "Color3" then CustomType = "CustomColor3" end
                 coroutine.wrap(function()
                     while not CompleteStopScript do wait()
                         if not hovering then
@@ -1077,7 +1107,9 @@ function Kavo.CreateLib(kavName, themeList)
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
                         moreInfo.TextColor3 = themeList.TextColor
                         write.ImageColor3 = themeList.SchemeColor
-                        togName.TextColor3 = themeList.TextColor
+                        if CustomType == "nil" then
+                            ogName.TextColor3 = themeList.TextColor
+                        end
                         TextBox.PlaceholderColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 19, themeList.SchemeColor.g * 255 - 26, themeList.SchemeColor.b * 255 - 35)
                         TextBox.TextColor3 = themeList.SchemeColor
                     end
