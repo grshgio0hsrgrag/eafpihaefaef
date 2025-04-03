@@ -814,9 +814,7 @@ function Kavo.CreateLib(kavName, themeList)
                         viewInfo.ImageColor3 = themeList.SchemeColor
                         Sample.ImageColor3 = themeList.SchemeColor
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
-                        if CustomType == nil then
-                            moreInfo.TextColor3 = themeList.TextColor
-                        end
+                        moreInfo.TextColor3 = themeList.TextColor
                         touch.ImageColor3 = themeList.SchemeColor
                         if CustomType == nil then
                             btnInfo.TextColor3 = themeList.TextColor
@@ -1026,7 +1024,7 @@ function Kavo.CreateLib(kavName, themeList)
                 end)()
             end 
 
-                function Elements:NewToggle(tname, nTip, callback)
+                function Elements:NewToggle(tname, nTip,btnInfoColor, callback)
                     local TogFunction = {}
                     tname = tname or "Toggle"
                     nTip = nTip or "Prints Current Toggle State"
@@ -1091,6 +1089,33 @@ function Kavo.CreateLib(kavName, themeList)
                     togName.TextColor3 = themeList.TextColor
                     togName.TextSize = 14.000
                     togName.TextXAlignment = Enum.TextXAlignment.Left
+                    local Type = typeof(btnInfoColor)
+                    if typeof(btnInfoColor) == "table" then
+                        if typeof(btnInfoColor[1]) == "ColorSequence" then
+                            local UIGradient = Instance.new("UIGradient")
+                            UIGradient.Color = btnInfoColor[1]
+                            UIGradient.Offset = Vector2.new(-0.365, 0)
+                            UIGradient.Parent = btnInfo
+                            if typeof(btnInfoColor[2]) == "number" then
+                                UIGradient.Rotation = btnInfoColor[2]
+                            end
+                            if typeof(btnInfoColor[3]) == "Color3" then
+                                btnInfo.TextColor3 = btnInfoColor[3]
+                            end
+                            if typeof(btnInfoColor[4]) == "Vector2" then
+                                UIGradient.Offset = btnInfoColor[4]
+                            end
+                        end
+                    elseif typeof(btnInfoColor) == "Color3" then
+                        btnInfo.TextColor3 = btnInfoColor
+                    elseif typeof(btnInfoColor) == "ColorSequence" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
+                        UIGradient.Parent = btnInfo
+                    else
+                        btnInfo.TextColor3 = themeList.TextColor
+                    end
 
                     viewInfo.Name = "viewInfo"
                     viewInfo.Parent = toggleElement
@@ -1145,8 +1170,8 @@ function Kavo.CreateLib(kavName, themeList)
                     local img = toggleEnabled
                     local infBtn = viewInfo
 
-                                    updateSectionFrame()
-                UpdateSize()
+                    updateSectionFrame()
+                    UpdateSize()
 
                     btn.MouseButton1Click:Connect(function()
                         if not focusing then
@@ -1219,6 +1244,8 @@ function Kavo.CreateLib(kavName, themeList)
                         end
                     end)
 
+                    local CustomType = typeof(btnInfoColor)
+                    if CustomType == "Color3" then CustomType = "CustomColor3" end
                     coroutine.wrap(function()
                         while not CompleteStopScript do wait()
                             if not hovering then
@@ -1226,7 +1253,9 @@ function Kavo.CreateLib(kavName, themeList)
                             end
                             toggleDisabled.ImageColor3 = themeList.SchemeColor
                             toggleEnabled.ImageColor3 = themeList.SchemeColor
-                            togName.TextColor3 = themeList.TextColor
+                            if CustomType == nil then
+                                togName.TextColor3 = themeList.TextColor
+                            end
                             viewInfo.ImageColor3 = themeList.SchemeColor
                             Sample.ImageColor3 = themeList.SchemeColor
                             moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
