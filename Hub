@@ -684,7 +684,7 @@ function Kavo.CreateLib(kavName, themeList)
                 touch.ImageRectOffset = Vector2.new(84, 204)
                 touch.ImageRectSize = Vector2.new(36, 36)
                 touch.ImageTransparency = 0
-
+                
                 btnInfo.Name = "btnInfo"
                 btnInfo.Parent = buttonElement
                 btnInfo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -708,6 +708,7 @@ function Kavo.CreateLib(kavName, themeList)
                         end
                     end
                 elseif typeof(btnInfoColor) == "Color3" then
+                    Type = "CustomColor3"
                     btnInfo.TextColor3 = btnInfoColor
                 elseif typeof(btnInfoColor) == "Gradient" then
                     local UIGradient = Instance.new("UIGradient")
@@ -719,7 +720,7 @@ function Kavo.CreateLib(kavName, themeList)
                 Objects[btnInfo] = "TextColor3"
                 btnInfo.TextSize = 14.000
                 btnInfo.TextXAlignment = Enum.TextXAlignment.Left
-
+                
                 if themeList.SchemeColor == Color3.fromRGB(255,255,255) then
                     Utility:TweenObject(moreInfo, {TextColor3 = Color3.fromRGB(0,0,0)}, 0.2)
                 end 
