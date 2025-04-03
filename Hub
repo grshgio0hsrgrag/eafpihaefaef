@@ -513,6 +513,7 @@ function Kavo.CreateLib(kavName, themeList)
 
         local CustomType = typeof(btnInfoColor)
         if CustomType == "Color3" then CustomType = "CustomColor3" end
+        print(CustomType)
         coroutine.wrap(function()
             while not CompleteStopScript do wait()
                 page.BackgroundColor3 = themeList.Background
@@ -641,8 +642,6 @@ function Kavo.CreateLib(kavName, themeList)
                 while not CompleteStopScript do wait()
                     sectionFrame.BackgroundColor3 = themeList.Background
                     sectionHead.BackgroundColor3 = themeList.SchemeColor
-                    tabButton.TextColor3 = themeList.TextColor
-                    tabButton.BackgroundColor3 = themeList.SchemeColor
                     if CustomType == "nil" then
                         sectionName.TextColor3 = themeList.TextColor
                     end
