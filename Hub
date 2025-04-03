@@ -816,7 +816,7 @@ function Kavo.CreateLib(kavName, themeList)
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
                         moreInfo.TextColor3 = themeList.TextColor
                         touch.ImageColor3 = themeList.SchemeColor
-                        if CustomType == nil then
+                        if CustomType == "nil" then
                             btnInfo.TextColor3 = themeList.TextColor
                         end
                     end
@@ -1246,7 +1246,6 @@ function Kavo.CreateLib(kavName, themeList)
 
                     local CustomType = typeof(btnInfoColor)
                     if CustomType == "Color3" then CustomType = "CustomColor3" end
-                    print(CustomType, CustomType==nil)
                     coroutine.wrap(function()
                         while not CompleteStopScript do wait()
                             if not hovering then
@@ -1254,8 +1253,7 @@ function Kavo.CreateLib(kavName, themeList)
                             end
                             toggleDisabled.ImageColor3 = themeList.SchemeColor
                             toggleEnabled.ImageColor3 = themeList.SchemeColor
-                            if CustomType == nil then
-                                print("t")
+                            if CustomType == "nil" then
                                 togName.TextColor3 = themeList.TextColor
                             end
                             viewInfo.ImageColor3 = themeList.SchemeColor
