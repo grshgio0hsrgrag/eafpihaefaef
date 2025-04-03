@@ -123,11 +123,11 @@ local themeStyles = {
         ElementColor = Color3.fromRGB(22, 29, 31)
     },
     ScriptX = {
-        SchemeColor = Color3.fromRGB(30, 30, 30),
+        SchemeColor = Color3.fromRGB(80, 80, 80),
         Background = Color3.fromRGB(15, 15, 15),
         Header = Color3.fromRGB(8, 8, 8),
         TextColor = Color3.fromRGB(255, 99, 53),
-        ElementColor = Color3.fromRGB(60, 60, 60)
+        ElementColor = Color3.fromRGB(50, 50, 50)
     },
 }
 local oldTheme = ""
@@ -801,7 +801,6 @@ function Kavo.CreateLib(kavName, themeList)
                 end)
                 local CustomType = typeof(btnInfoColor)
                 if CustomType == "Color3" then CustomType = "CustomColor3" end
-                print(CustomType)
                 coroutine.wrap(function()
                     while wait() and typeof(btnInfoColor) do
                         if not hovering then
