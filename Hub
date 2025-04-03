@@ -1023,7 +1023,7 @@ function Kavo.CreateLib(kavName, themeList)
 
 
                 updateSectionFrame()
-                                UpdateSize()
+                UpdateSize()
             
                 local btn = textboxElement
                 local infBtn = viewInfo
@@ -2150,7 +2150,7 @@ function Kavo.CreateLib(kavName, themeList)
                 end
                 return DropFunction
             end
-            function Elements:NewKeybind(keytext, keyinf, first, callback)
+            function Elements:NewKeybind(keytext, keyinf, first,btnInfoColor, callback)
                 keytext = keytext or "KeybindText"
                 keyinf = keyinf or "KebindInfo"
                 callback = callback or function() end
@@ -2263,6 +2263,33 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.TextColor3 = themeList.TextColor
                 togName.TextSize = 14.000
                 togName.TextXAlignment = Enum.TextXAlignment.Left
+                local Type = typeof(btnInfoColor)
+                if typeof(btnInfoColor) == "table" then
+                    if typeof(btnInfoColor[1]) == "ColorSequence" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor[1]
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
+                        UIGradient.Parent = togName
+                        if typeof(btnInfoColor[2]) == "number" then
+                            UIGradient.Rotation = btnInfoColor[2]
+                        end
+                        if typeof(btnInfoColor[3]) == "Color3" then
+                            togName.TextColor3 = btnInfoColor[3]
+                        end
+                        if typeof(btnInfoColor[4]) == "Vector2" then
+                            UIGradient.Offset = btnInfoColor[4]
+                        end
+                    end
+                elseif typeof(btnInfoColor) == "Color3" then
+                    togName.TextColor3 = btnInfoColor
+                elseif typeof(btnInfoColor) == "ColorSequence" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
+                    UIGradient.Parent = togName
+                else
+                    togName.TextColor3 = themeList.TextColor
+                end
 
                 viewInfo.Name = "viewInfo"
                 viewInfo.Parent = keybindElement
@@ -2352,6 +2379,8 @@ function Kavo.CreateLib(kavName, themeList)
                 togName_2.TextSize = 14.000
                 togName_2.TextXAlignment = Enum.TextXAlignment.Right   
 
+                local CustomType = typeof(btnInfoColor)
+                if CustomType == "Color3" then CustomType = "CustomColor3" end
                 coroutine.wrap(function()
                     while not CompleteStopScript do wait()
                         if not oHover then
@@ -2361,7 +2390,9 @@ function Kavo.CreateLib(kavName, themeList)
                         touch.ImageColor3 = themeList.SchemeColor
                         viewInfo.ImageColor3 = themeList.SchemeColor
                         togName.BackgroundColor3 = themeList.TextColor
-                        togName.TextColor3 = themeList.TextColor
+                        if CustomType == "nil" then
+                            togName.TextColor3 = themeList.TextColor
+                        end
                         Sample.ImageColor3 = themeList.SchemeColor
                         moreInfo.TextColor3 = themeList.TextColor
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
@@ -2370,7 +2401,7 @@ function Kavo.CreateLib(kavName, themeList)
                 end)()
             end
 
-            function Elements:NewColorPicker(colText, colInf, defcolor, callback)
+            function Elements:NewColorPicker(colText, colInf, defcolor, btnInfoColor, callback)
                 colText = colText or "ColorPicker"
                 callback = callback or function() end
                 defcolor = defcolor or Color3.fromRGB(1,1,1)
@@ -2516,6 +2547,33 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.TextSize = 14.000
                 togName.RichText = true
                 togName.TextXAlignment = Enum.TextXAlignment.Left
+                local Type = typeof(btnInfoColor)
+                if typeof(btnInfoColor) == "table" then
+                    if typeof(btnInfoColor[1]) == "ColorSequence" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor[1]
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
+                        UIGradient.Parent = togName
+                        if typeof(btnInfoColor[2]) == "number" then
+                            UIGradient.Rotation = btnInfoColor[2]
+                        end
+                        if typeof(btnInfoColor[3]) == "Color3" then
+                            togName.TextColor3 = btnInfoColor[3]
+                        end
+                        if typeof(btnInfoColor[4]) == "Vector2" then
+                            UIGradient.Offset = btnInfoColor[4]
+                        end
+                    end
+                elseif typeof(btnInfoColor) == "Color3" then
+                    togName.TextColor3 = btnInfoColor
+                elseif typeof(btnInfoColor) == "ColorSequence" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
+                    UIGradient.Parent = togName
+                else
+                    togName.TextColor3 = themeList.TextColor
+                end
 
                 local moreInfo = Instance.new("TextLabel")
                 local UICorner = Instance.new("UICorner")
@@ -2710,6 +2768,9 @@ function Kavo.CreateLib(kavName, themeList)
                 if themeList.SchemeColor == Color3.fromRGB(0,0,0) then
                     Utility:TweenObject(moreInfo, {TextColor3 = Color3.fromRGB(255,255,255)}, 0.2)
                 end 
+
+                local CustomType = typeof(btnInfoColor)
+                if CustomType == "Color3" then CustomType = "CustomColor3" end
                 coroutine.wrap(function()
                     while not CompleteStopScript do wait()
                         if not hovering then
@@ -2717,7 +2778,9 @@ function Kavo.CreateLib(kavName, themeList)
                         end
                         touch.ImageColor3 = themeList.SchemeColor
                         colorHeader.BackgroundColor3 = themeList.ElementColor
-                        togName.TextColor3 = themeList.TextColor
+                        if CustomType == "nil" then
+                            togName.TextColor3 = themeList.TextColor
+                        end
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
                         moreInfo.TextColor3 = themeList.TextColor
                         viewInfo.ImageColor3 = themeList.SchemeColor
@@ -2838,7 +2901,7 @@ function Kavo.CreateLib(kavName, themeList)
                 setcolor({h,s,v})
             end
             
-            function Elements:NewLabel(title)
+            function Elements:NewLabel(title, btnInfoColor)
             	local labelFunctions = {}
             	local label = Instance.new("TextLabel")
             	local UICorner = Instance.new("UICorner")
@@ -2856,7 +2919,34 @@ function Kavo.CreateLib(kavName, themeList)
 	            Objects[label] = "TextColor3"
 	            label.TextSize = 14.000
 	            label.TextXAlignment = Enum.TextXAlignment.Left
-	            
+	            local Type = typeof(btnInfoColor)
+                if typeof(btnInfoColor) == "table" then
+                    if typeof(btnInfoColor[1]) == "ColorSequence" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor[1]
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
+                        UIGradient.Parent = label
+                        if typeof(btnInfoColor[2]) == "number" then
+                            UIGradient.Rotation = btnInfoColor[2]
+                        end
+                        if typeof(btnInfoColor[3]) == "Color3" then
+                            label.TextColor3 = btnInfoColor[3]
+                        end
+                        if typeof(btnInfoColor[4]) == "Vector2" then
+                            UIGradient.Offset = btnInfoColor[4]
+                        end
+                    end
+                elseif typeof(btnInfoColor) == "Color3" then
+                    label.TextColor3 = btnInfoColor
+                elseif typeof(btnInfoColor) == "ColorSequence" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
+                    UIGradient.Parent = label
+                else
+                    label.TextColor3 = themeList.TextColor
+                end
+
 	           	UICorner.CornerRadius = UDim.new(0, 4)
                 UICorner.Parent = label
             	
@@ -2867,10 +2957,14 @@ function Kavo.CreateLib(kavName, themeList)
 	                Utility:TweenObject(label, {TextColor3 = Color3.fromRGB(255,255,255)}, 0.2)
 	            end 
 
+                local CustomType = typeof(btnInfoColor)
+                if CustomType == "Color3" then CustomType = "CustomColor3" end
 		        coroutine.wrap(function()
 		            while not CompleteStopScript do wait()
 		                label.BackgroundColor3 = themeList.SchemeColor
-		                label.TextColor3 = themeList.TextColor
+                        if CustomType == "nil" then
+		                    label.TextColor3 = themeList.TextColor
+                        end
 		            end
 		        end)()
                 updateSectionFrame()
