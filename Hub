@@ -704,7 +704,7 @@ function Kavo.CreateLib(kavName, themeList)
                             UIGradient.Rotation = btnInfoColor[2]
                         end
                         if typeof(btnInfoColor[3]) == "Color3" then
-                            UIGradient.TextColor3 = btnInfoColor[3]
+                            btnInfo.TextColor3 = btnInfoColor[3]
                         end
                     end
                 elseif typeof(btnInfoColor) == "Color3" then
