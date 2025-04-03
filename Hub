@@ -800,6 +800,7 @@ function Kavo.CreateLib(kavName, themeList)
                     end
                 end)
                 local CustomType = typeof(btnInfoColor)
+                if CustomType == "Color3" then CustomType = "CustomColor3" end
                 print(CustomType)
                 coroutine.wrap(function()
                     while wait() and typeof(btnInfoColor) do
@@ -809,7 +810,9 @@ function Kavo.CreateLib(kavName, themeList)
                         viewInfo.ImageColor3 = themeList.SchemeColor
                         Sample.ImageColor3 = themeList.SchemeColor
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
-                        moreInfo.TextColor3 = themeList.TextColor
+                        if CustomType == nil then
+                            moreInfo.TextColor3 = themeList.TextColor
+                        end
                         touch.ImageColor3 = themeList.SchemeColor
                         if CustomType == nil then
                             btnInfo.TextColor3 = themeList.TextColor
