@@ -694,9 +694,8 @@ function Kavo.CreateLib(kavName, themeList)
                 btnInfo.Font = Enum.Font.GothamSemibold
                 btnInfo.Text = bname
                 btnInfo.RichText = true
-                print(typeof(btnInfoColor))
+                local Type = typeof(btnInfoColor)
                 if typeof(btnInfoColor) == "table" then
-                    print("1")
                     if typeof(btnInfoColor[1]) == "Gradient" then
                         local UIGradient = Instance.new("UIGradient")
                         UIGradient.Color = btnInfoColor[1]
@@ -709,15 +708,12 @@ function Kavo.CreateLib(kavName, themeList)
                         end
                     end
                 elseif typeof(btnInfoColor) == "Color3" then
-                    print("2")
                     btnInfo.TextColor3 = btnInfoColor
                 elseif typeof(btnInfoColor) == "Gradient" then
-                    print("3")
                     local UIGradient = Instance.new("UIGradient")
                     UIGradient.Color = btnInfoColor
                     UIGradient.Parent = btnInfo
                 else
-                    print("4")
                     btnInfo.TextColor3 = themeList.TextColor
                 end
                 Objects[btnInfo] = "TextColor3"
@@ -813,7 +809,9 @@ function Kavo.CreateLib(kavName, themeList)
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
                         moreInfo.TextColor3 = themeList.TextColor
                         touch.ImageColor3 = themeList.SchemeColor
-                        btnInfo.TextColor3 = themeList.TextColor
+                        if Type ~= "Gradient" and Type ~= "table" then
+                            btnInfo.TextColor3 = themeList.TextColor
+                        end
                     end
                 end)()
                 
