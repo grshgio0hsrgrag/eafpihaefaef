@@ -1,4 +1,4 @@
-print("Loading Hub Settings...")
+print("Loading Hub Settings..")
 local Kavo = {}
 
 local tween = game:GetService("TweenService")
@@ -1095,26 +1095,26 @@ function Kavo.CreateLib(kavName, themeList)
                             local UIGradient = Instance.new("UIGradient")
                             UIGradient.Color = btnInfoColor[1]
                             UIGradient.Offset = Vector2.new(-0.365, 0)
-                            UIGradient.Parent = btnInfo
+                            UIGradient.Parent = togName
                             if typeof(btnInfoColor[2]) == "number" then
                                 UIGradient.Rotation = btnInfoColor[2]
                             end
                             if typeof(btnInfoColor[3]) == "Color3" then
-                                btnInfo.TextColor3 = btnInfoColor[3]
+                                togName.TextColor3 = btnInfoColor[3]
                             end
                             if typeof(btnInfoColor[4]) == "Vector2" then
                                 UIGradient.Offset = btnInfoColor[4]
                             end
                         end
                     elseif typeof(btnInfoColor) == "Color3" then
-                        btnInfo.TextColor3 = btnInfoColor
+                        togName.TextColor3 = btnInfoColor
                     elseif typeof(btnInfoColor) == "ColorSequence" then
                         local UIGradient = Instance.new("UIGradient")
                         UIGradient.Color = btnInfoColor
                         UIGradient.Offset = Vector2.new(-0.365, 0)
-                        UIGradient.Parent = btnInfo
+                        UIGradient.Parent = togName
                     else
-                        btnInfo.TextColor3 = themeList.TextColor
+                        togName.TextColor3 = themeList.TextColor
                     end
 
                     viewInfo.Name = "viewInfo"
