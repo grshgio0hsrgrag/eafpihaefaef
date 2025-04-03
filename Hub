@@ -1,4 +1,4 @@
-print("Loading Hub Settings..")
+print("Loading Hub Settings...")
 local Kavo = {}
 
 local tween = game:GetService("TweenService")
@@ -1246,6 +1246,7 @@ function Kavo.CreateLib(kavName, themeList)
 
                     local CustomType = typeof(btnInfoColor)
                     if CustomType == "Color3" then CustomType = "CustomColor3" end
+                    print(CustomType, btnInfoColor, typeof(btnInfoColor))
                     coroutine.wrap(function()
                         while not CompleteStopScript do wait()
                             if not hovering then
