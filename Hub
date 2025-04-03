@@ -393,7 +393,7 @@ function Kavo.CreateLib(kavName, themeList)
 
     local first = true
 
-    function Tabs:NewTab(tabName)
+    function Tabs:NewTab(tabName,btnInfoColor)
         tabName = tabName or "Tab"
         local tabButton = Instance.new("TextButton")
         local UICorner = Instance.new("UICorner")
@@ -436,6 +436,33 @@ function Kavo.CreateLib(kavName, themeList)
         Objects[tabButton] = "TextColor3"
         tabButton.TextSize = 14.000
         tabButton.BackgroundTransparency = 1
+        local Type = typeof(btnInfoColor)
+        if typeof(btnInfoColor) == "table" then
+            if typeof(btnInfoColor[1]) == "ColorSequence" then
+                local UIGradient = Instance.new("UIGradient")
+                UIGradient.Color = btnInfoColor[1]
+                UIGradient.Offset = Vector2.new(-0.365, 0)
+                UIGradient.Parent = tabButton
+                if typeof(btnInfoColor[2]) == "number" then
+                    UIGradient.Rotation = btnInfoColor[2]
+                end
+                if typeof(btnInfoColor[3]) == "Color3" then
+                    tabButton.TextColor3 = btnInfoColor[3]
+                end
+                if typeof(btnInfoColor[4]) == "Vector2" then
+                    UIGradient.Offset = btnInfoColor[4]
+                end
+            end
+        elseif typeof(btnInfoColor) == "Color3" then
+            tabButton.TextColor3 = btnInfoColor
+        elseif typeof(btnInfoColor) == "ColorSequence" then
+            local UIGradient = Instance.new("UIGradient")
+            UIGradient.Color = btnInfoColor
+            UIGradient.Offset = Vector2.new(-0.365, 0)
+            UIGradient.Parent = tabButton
+        else
+            tabButton.TextColor3 = themeList.TextColor
+        end
 
         if first then
             first = false
@@ -484,20 +511,24 @@ function Kavo.CreateLib(kavName, themeList)
         local focusing = false
         local viewDe = false
 
+        local CustomType = typeof(btnInfoColor)
+        if CustomType == "Color3" then CustomType = "CustomColor3" end
         coroutine.wrap(function()
             while not CompleteStopScript do wait()
                 page.BackgroundColor3 = themeList.Background
                 page.ScrollBarImageColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 16, themeList.SchemeColor.g * 255 - 15, themeList.SchemeColor.b * 255 - 28)
-                tabButton.TextColor3 = themeList.TextColor
+                if CustomType == "nil" then
+                    tabButton.TextColor3 = themeList.TextColor
+                end
                 tabButton.BackgroundColor3 = themeList.SchemeColor
             end
         end)()
     
-        function Sections:NewSection(secName, hidden)
+        function Sections:NewSection(secName, hidden, btnInfoColor)
             secName = secName or "Section"
             local sectionFunctions = {}
             local modules = {}
-	    hidden = hidden or false
+	        hidden = hidden or false
             local sectionFrame = Instance.new("Frame")
             local sectionlistoknvm = Instance.new("UIListLayout")
             local sectionHead = Instance.new("Frame")
@@ -506,11 +537,11 @@ function Kavo.CreateLib(kavName, themeList)
             local sectionInners = Instance.new("Frame")
             local sectionElListing = Instance.new("UIListLayout")
 			
-	    if hidden then
-		sectionHead.Visible = false
-	    else
-		sectionHead.Visible = true
-	    end
+            if hidden then
+                sectionHead.Visible = false
+            else
+                sectionHead.Visible = true
+            end
 
             sectionFrame.Name = "sectionFrame"
             sectionFrame.Parent = page
@@ -564,8 +595,35 @@ function Kavo.CreateLib(kavName, themeList)
             end 
             if themeList.SchemeColor == Color3.fromRGB(0,0,0) then
                 Utility:TweenObject(sectionName, {TextColor3 = Color3.fromRGB(255,255,255)}, 0.2)
-            end 
-               
+            end
+            local Type = typeof(btnInfoColor)
+            if typeof(btnInfoColor) == "table" then
+                if typeof(btnInfoColor[1]) == "ColorSequence" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor[1]
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
+                    UIGradient.Parent = sectionName
+                    if typeof(btnInfoColor[2]) == "number" then
+                        UIGradient.Rotation = btnInfoColor[2]
+                    end
+                    if typeof(btnInfoColor[3]) == "Color3" then
+                        sectionName.TextColor3 = btnInfoColor[3]
+                    end
+                    if typeof(btnInfoColor[4]) == "Vector2" then
+                        UIGradient.Offset = btnInfoColor[4]
+                    end
+                end
+            elseif typeof(btnInfoColor) == "Color3" then
+                sectionName.TextColor3 = btnInfoColor
+            elseif typeof(btnInfoColor) == "ColorSequence" then
+                local UIGradient = Instance.new("UIGradient")
+                UIGradient.Color = btnInfoColor
+                UIGradient.Offset = Vector2.new(-0.365, 0)
+                UIGradient.Parent = sectionName
+            else
+                sectionName.TextColor3 = themeList.TextColor
+            end
+
             sectionInners.Name = "sectionInners"
             sectionInners.Parent = sectionFrame
             sectionInners.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -577,16 +635,19 @@ function Kavo.CreateLib(kavName, themeList)
             sectionElListing.SortOrder = Enum.SortOrder.LayoutOrder
             sectionElListing.Padding = UDim.new(0, 3)
 
-            
-        coroutine.wrap(function()
-            while not CompleteStopScript do wait()
-                sectionFrame.BackgroundColor3 = themeList.Background
-                sectionHead.BackgroundColor3 = themeList.SchemeColor
-                tabButton.TextColor3 = themeList.TextColor
-                tabButton.BackgroundColor3 = themeList.SchemeColor
-                sectionName.TextColor3 = themeList.TextColor
-            end
-        end)()
+            local CustomType = typeof(btnInfoColor)
+            if CustomType == "Color3" then CustomType = "CustomColor3" end
+            coroutine.wrap(function()
+                while not CompleteStopScript do wait()
+                    sectionFrame.BackgroundColor3 = themeList.Background
+                    sectionHead.BackgroundColor3 = themeList.SchemeColor
+                    tabButton.TextColor3 = themeList.TextColor
+                    tabButton.BackgroundColor3 = themeList.SchemeColor
+                    if CustomType == "nil" then
+                        sectionName.TextColor3 = themeList.TextColor
+                    end
+                end
+            end)()
 
             local function updateSectionFrame()
                 local innerSc = sectionElListing.AbsoluteContentSize
