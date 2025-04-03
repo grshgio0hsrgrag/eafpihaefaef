@@ -1713,26 +1713,26 @@ function Kavo.CreateLib(kavName, themeList)
                         local UIGradient = Instance.new("UIGradient")
                         UIGradient.Color = btnInfoColor[1]
                         UIGradient.Offset = Vector2.new(-0.365, 0)
-                        UIGradient.Parent = dropname
+                        UIGradient.Parent = itemTextbox
                         if typeof(btnInfoColor[2]) == "number" then
                             UIGradient.Rotation = btnInfoColor[2]
                         end
                         if typeof(btnInfoColor[3]) == "Color3" then
-                            dropname.TextColor3 = btnInfoColor[3]
+                            itemTextbox.TextColor3 = btnInfoColor[3]
                         end
                         if typeof(btnInfoColor[4]) == "Vector2" then
                             UIGradient.Offset = btnInfoColor[4]
                         end
                     end
                 elseif typeof(btnInfoColor) == "Color3" then
-                    dropname.TextColor3 = btnInfoColor
+                    itemTextbox.TextColor3 = btnInfoColor
                 elseif typeof(btnInfoColor) == "ColorSequence" then
                     local UIGradient = Instance.new("UIGradient")
                     UIGradient.Color = btnInfoColor
                     UIGradient.Offset = Vector2.new(-0.365, 0)
-                    UIGradient.Parent = dropname
+                    UIGradient.Parent = itemTextbox
                 else
-                    dropname.TextColor3 = themeList.TextColor
+                    itemTextbox.TextColor3 = themeList.TextColor
                 end
 
                 viewInfo.Name = "viewInfo"
