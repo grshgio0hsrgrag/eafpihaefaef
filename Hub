@@ -887,7 +887,7 @@ function Kavo.CreateLib(kavName, themeList)
                 return ButtonFunction
             end
 
-            function Elements:NewTextBox(tname, tTip, callback)
+            function Elements:NewTextBox(tname, tTip,btnInfoColor, callback)
                 tname = tname or "Textbox"
                 tTip = tTip or "Gets a value of Textbox"
                 callback = callback or function() end
@@ -967,7 +967,33 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.TextColor3 = themeList.TextColor
                 togName.TextSize = 14.000
                 togName.TextXAlignment = Enum.TextXAlignment.Left
-
+                local Type = typeof(btnInfoColor)
+                if typeof(btnInfoColor) == "table" then
+                    if typeof(btnInfoColor[1]) == "ColorSequence" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor[1]
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
+                        UIGradient.Parent = togName
+                        if typeof(btnInfoColor[2]) == "number" then
+                            UIGradient.Rotation = btnInfoColor[2]
+                        end
+                        if typeof(btnInfoColor[3]) == "Color3" then
+                            togName.TextColor3 = btnInfoColor[3]
+                        end
+                        if typeof(btnInfoColor[4]) == "Vector2" then
+                            UIGradient.Offset = btnInfoColor[4]
+                        end
+                    end
+                elseif typeof(btnInfoColor) == "Color3" then
+                    togName.TextColor3 = btnInfoColor
+                elseif typeof(btnInfoColor) == "ColorSequence" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
+                    UIGradient.Parent = togName
+                else
+                    togName.TextColor3 = themeList.TextColor
+                end
 
                 local moreInfo = Instance.new("TextLabel")
                 local UICorner = Instance.new("UICorner")
