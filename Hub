@@ -699,6 +699,7 @@ function Kavo.CreateLib(kavName, themeList)
                     if typeof(btnInfoColor[1]) == "ColorSequence" then
                         local UIGradient = Instance.new("UIGradient")
                         UIGradient.Color = btnInfoColor[1]
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
                         UIGradient.Parent = btnInfo
                         if typeof(btnInfoColor[2]) == "number" then
                             UIGradient.Rotation = btnInfoColor[2]
@@ -706,12 +707,16 @@ function Kavo.CreateLib(kavName, themeList)
                         if typeof(btnInfoColor[3]) == "Color3" then
                             btnInfo.TextColor3 = btnInfoColor[3]
                         end
+                        if typeof(btnInfoColor[4]) == "Vector2" then
+                            UIGradient.Offset = btnInfoColor[4]
+                        end
                     end
                 elseif typeof(btnInfoColor) == "Color3" then
                     btnInfo.TextColor3 = btnInfoColor
                 elseif typeof(btnInfoColor) == "ColorSequence" then
                     local UIGradient = Instance.new("UIGradient")
                     UIGradient.Color = btnInfoColor
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
                     UIGradient.Parent = btnInfo
                 else
                     btnInfo.TextColor3 = themeList.TextColor
