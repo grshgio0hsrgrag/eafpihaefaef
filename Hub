@@ -696,7 +696,7 @@ function Kavo.CreateLib(kavName, themeList)
                 btnInfo.RichText = true
                 local Type = typeof(btnInfoColor)
                 if typeof(btnInfoColor) == "table" then
-                    if typeof(btnInfoColor[1]) == "Gradient" then
+                    if typeof(btnInfoColor[1]) == "ColorSequence" then
                         local UIGradient = Instance.new("UIGradient")
                         UIGradient.Color = btnInfoColor[1]
                         UIGradient.Parent = btnInfo
@@ -709,7 +709,7 @@ function Kavo.CreateLib(kavName, themeList)
                     end
                 elseif typeof(btnInfoColor) == "Color3" then
                     btnInfo.TextColor3 = btnInfoColor
-                elseif typeof(btnInfoColor) == "Gradient" then
+                elseif typeof(btnInfoColor) == "ColorSequence" then
                     local UIGradient = Instance.new("UIGradient")
                     UIGradient.Color = btnInfoColor
                     UIGradient.Parent = btnInfo
