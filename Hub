@@ -1,4 +1,4 @@
-print("Loading Hub Settings...")
+print("Loading Hub Settings..")
 local Kavo = {}
 
 local tween = game:GetService("TweenService")
@@ -606,7 +606,7 @@ function Kavo.CreateLib(kavName, themeList)
                 updateSectionFrame()
                 UpdateSize()
             local Elements = {}
-            function Elements:NewButton(bname,tipINf, callback, btnInfoColor)
+            function Elements:NewButton(bname,tipINf,btnInfoColor, callback)
                 showLogo = showLogo or true
                 local ButtonFunction = {}
                 tipINf = tipINf or "Tip: Clicking this nothing will happen!"
@@ -703,16 +703,20 @@ function Kavo.CreateLib(kavName, themeList)
                 btnInfo.Font = Enum.Font.GothamSemibold
                 btnInfo.Text = bname
                 btnInfo.RichText = true
-                local ColorType = getColorType(btnInfoColor[1])
-                if ColorType == "Color" then
-                    btnInfo.TextColor3 = btnInfoColor[1]
-                elseif ColorType == "Gradient" then
-                    local UIGradient = Instance.new("UIGradient")
-                    UIGradient.Color = btnInfoColor[1]
-                    if typeof(btnInfoColor[2]) == "number" then
-                        UIGradient.Rotation = btnInfoColor[2]
+                if typeof(btnInfoColor) == "table" then
+                    local ColorType = getColorType(btnInfoColor[1])
+                    if ColorType == "Color" then
+                        btnInfo.TextColor3 = btnInfoColor[1]
+                    elseif ColorType == "Gradient" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor[1]
+                        if typeof(btnInfoColor[2]) == "number" then
+                            UIGradient.Rotation = btnInfoColor[2]
+                        end
+                        UIGradient.Parent = btnInfo
+                    else
+                        btnInfo.TextColor3 = themeList.TextColor
                     end
-                    UIGradient.Parent = btnInfo
                 else
                     btnInfo.TextColor3 = themeList.TextColor
                 end
