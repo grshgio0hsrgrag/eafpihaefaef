@@ -1025,6 +1025,7 @@ function Kavo.CreateLib(kavName, themeList)
             end 
 
                 function Elements:NewToggle(tname, nTip,btnInfoColor, callback)
+                    print(typeof(btnInfoColor))
                     local TogFunction = {}
                     tname = tname or "Toggle"
                     nTip = nTip or "Prints Current Toggle State"
@@ -1246,7 +1247,7 @@ function Kavo.CreateLib(kavName, themeList)
 
                     local CustomType = typeof(btnInfoColor)
                     if CustomType == "Color3" then CustomType = "CustomColor3" end
-                    print(CustomType, btnInfoColor, typeof(btnInfoColor))
+                    print(CustomType)
                     coroutine.wrap(function()
                         while not CompleteStopScript do wait()
                             if not hovering then
