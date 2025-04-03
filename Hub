@@ -1304,7 +1304,7 @@ function Kavo.CreateLib(kavName, themeList)
                     return TogFunction
             end
 
-            function Elements:NewSlider(slidInf, slidTip, maxvalue, minvalue, callback)
+            function Elements:NewSlider(slidInf, slidTip, maxvalue, minvalue,btnInfoColor, callback)
                 slidInf = slidInf or "Slider"
                 slidTip = slidTip or "Slider tip here"
                 maxvalue = maxvalue or 500
@@ -1350,6 +1350,33 @@ function Kavo.CreateLib(kavName, themeList)
                 togName.TextColor3 = themeList.TextColor
                 togName.TextSize = 14.000
                 togName.TextXAlignment = Enum.TextXAlignment.Left
+                local Type = typeof(btnInfoColor)
+                if typeof(btnInfoColor) == "table" then
+                    if typeof(btnInfoColor[1]) == "ColorSequence" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor[1]
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
+                        UIGradient.Parent = togName
+                        if typeof(btnInfoColor[2]) == "number" then
+                            UIGradient.Rotation = btnInfoColor[2]
+                        end
+                        if typeof(btnInfoColor[3]) == "Color3" then
+                            togName.TextColor3 = btnInfoColor[3]
+                        end
+                        if typeof(btnInfoColor[4]) == "Vector2" then
+                            UIGradient.Offset = btnInfoColor[4]
+                        end
+                    end
+                elseif typeof(btnInfoColor) == "Color3" then
+                    togName.TextColor3 = btnInfoColor
+                elseif typeof(btnInfoColor) == "ColorSequence" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
+                    UIGradient.Parent = togName
+                else
+                    togName.TextColor3 = themeList.TextColor
+                end
 
                 viewInfo.Name = "viewInfo"
                 viewInfo.Parent = sliderElement
@@ -1442,7 +1469,7 @@ function Kavo.CreateLib(kavName, themeList)
                 end 
 
 
-                                updateSectionFrame()
+                updateSectionFrame()
                 UpdateSize()
                 local mouse = game:GetService("Players").LocalPlayer:GetMouse();
 
@@ -1468,6 +1495,8 @@ function Kavo.CreateLib(kavName, themeList)
                     end
                 end)        
 
+                local CustomType = typeof(btnInfoColor)
+                if CustomType == "Color3" then CustomType = "CustomColor3" end
                 coroutine.wrap(function()
                     while not CompleteStopScript do wait()
                         if not hovering then
@@ -1477,7 +1506,9 @@ function Kavo.CreateLib(kavName, themeList)
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
                         val.TextColor3 = themeList.TextColor
                         write.ImageColor3 = themeList.SchemeColor
-                        togName.TextColor3 = themeList.TextColor
+                        if CustomType == "nil" then
+                            togName.TextColor3 = themeList.TextColor
+                        end
                         viewInfo.ImageColor3 = themeList.SchemeColor
                         sliderBtn.BackgroundColor3 = Color3.fromRGB(themeList.ElementColor.r * 255 + 5, themeList.ElementColor.g * 255 + 5, themeList.ElementColor.b * 255  + 5)
                         sliderDrag.BackgroundColor3 = themeList.SchemeColor
@@ -1548,7 +1579,7 @@ function Kavo.CreateLib(kavName, themeList)
                 end)        
             end
 
-            function Elements:NewDropdown(dropname, dropinf, list, callback)
+            function Elements:NewDropdown(dropname, dropinf, list,btnInfoColor, callback)
                 local DropFunction = {}
                 dropname = dropname or "Dropdown"
                 list = list or {}
@@ -1676,6 +1707,33 @@ function Kavo.CreateLib(kavName, themeList)
                 itemTextbox.TextColor3 = themeList.TextColor
                 itemTextbox.TextSize = 14.000
                 itemTextbox.TextXAlignment = Enum.TextXAlignment.Left
+                local Type = typeof(btnInfoColor)
+                if typeof(btnInfoColor) == "table" then
+                    if typeof(btnInfoColor[1]) == "ColorSequence" then
+                        local UIGradient = Instance.new("UIGradient")
+                        UIGradient.Color = btnInfoColor[1]
+                        UIGradient.Offset = Vector2.new(-0.365, 0)
+                        UIGradient.Parent = dropname
+                        if typeof(btnInfoColor[2]) == "number" then
+                            UIGradient.Rotation = btnInfoColor[2]
+                        end
+                        if typeof(btnInfoColor[3]) == "Color3" then
+                            dropname.TextColor3 = btnInfoColor[3]
+                        end
+                        if typeof(btnInfoColor[4]) == "Vector2" then
+                            UIGradient.Offset = btnInfoColor[4]
+                        end
+                    end
+                elseif typeof(btnInfoColor) == "Color3" then
+                    dropname.TextColor3 = btnInfoColor
+                elseif typeof(btnInfoColor) == "ColorSequence" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor
+                    UIGradient.Offset = Vector2.new(-0.365, 0)
+                    UIGradient.Parent = dropname
+                else
+                    dropname.TextColor3 = themeList.TextColor
+                end
 
                 viewInfo.Name = "viewInfo"
                 viewInfo.Parent = dropOpen
@@ -1745,7 +1803,10 @@ function Kavo.CreateLib(kavName, themeList)
                         }):Play()
                         hovering = false
                     end
-                end)        
+                end)
+
+                local CustomType = typeof(btnInfoColor)
+                if CustomType == "Color3" then CustomType = "CustomColor3" end
                 coroutine.wrap(function()
                     while not CompleteStopScript do wait()
                         if not hovering then
@@ -1754,7 +1815,9 @@ function Kavo.CreateLib(kavName, themeList)
                         Sample.ImageColor3 = themeList.SchemeColor
                         dropFrame.BackgroundColor3 = themeList.Background
                         listImg.ImageColor3 = themeList.SchemeColor
-                        itemTextbox.TextColor3 = themeList.TextColor
+                        if CustomType == "nil" then
+                            itemTextbox.TextColor3 = themeList.TextColor
+                        end
                         viewInfo.ImageColor3 = themeList.SchemeColor
                         moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
                         moreInfo.TextColor3 = themeList.TextColor
