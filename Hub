@@ -708,7 +708,6 @@ function Kavo.CreateLib(kavName, themeList)
                         end
                     end
                 elseif typeof(btnInfoColor) == "Color3" then
-                    Type = "CustomColor3"
                     btnInfo.TextColor3 = btnInfoColor
                 elseif typeof(btnInfoColor) == "Gradient" then
                     local UIGradient = Instance.new("UIGradient")
@@ -800,22 +799,7 @@ function Kavo.CreateLib(kavName, themeList)
                         viewDe = false
                     end
                 end)
-                coroutine.wrap(function()
-                    while wait() do
-                        if not hovering then
-                            buttonElement.BackgroundColor3 = themeList.ElementColor
-                        end
-                        viewInfo.ImageColor3 = themeList.SchemeColor
-                        Sample.ImageColor3 = themeList.SchemeColor
-                        moreInfo.BackgroundColor3 = Color3.fromRGB(themeList.SchemeColor.r * 255 - 14, themeList.SchemeColor.g * 255 - 17, themeList.SchemeColor.b * 255 - 13)
-                        moreInfo.TextColor3 = themeList.TextColor
-                        touch.ImageColor3 = themeList.SchemeColor
-                        if Type ~= "Gradient" and Type ~= "table" then
-                            print(Type)
-                            btnInfo.TextColor3 = themeList.TextColor
-                        end
-                    end
-                end)()
+    
                 
                 function ButtonFunction:UpdateButton(newTitle)
                     btnInfo.Text = newTitle
