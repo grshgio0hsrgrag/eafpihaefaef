@@ -51,6 +51,14 @@ function Utility:TweenObject(obj, properties, duration, ...)
     tween:Create(obj, tweeninfo(duration, ...), properties):Play()
 end
 
+local function getColorType(obj)
+    if typeof(obj) == "Color3" then
+        return "Color"
+    elseif typeof(obj) == "Instance" and obj:IsA("UIGradient") then
+        return "Gradient"
+    end
+    return "Unknown"
+end
 
 local themes = {
     SchemeColor = Color3.fromRGB(74, 99, 135),
@@ -598,7 +606,7 @@ function Kavo.CreateLib(kavName, themeList)
                 updateSectionFrame()
                 UpdateSize()
             local Elements = {}
-            function Elements:NewButton(bname,tipINf, callback)
+            function Elements:NewButton(bname,tipINf, callback, btnInfoColor)
                 showLogo = showLogo or true
                 local ButtonFunction = {}
                 tipINf = tipINf or "Tip: Clicking this nothing will happen!"
@@ -695,7 +703,19 @@ function Kavo.CreateLib(kavName, themeList)
                 btnInfo.Font = Enum.Font.GothamSemibold
                 btnInfo.Text = bname
                 btnInfo.RichText = true
-                btnInfo.TextColor3 = themeList.TextColor
+                local ColorType = getColorType(btnInfoColor[1])
+                if ColorType == "Color" then
+                    btnInfo.TextColor3 = btnInfoColor[1]
+                elseif ColorType == "Gradient" then
+                    local UIGradient = Instance.new("UIGradient")
+                    UIGradient.Color = btnInfoColor[1]
+                    if typeof(btnInfoColor[2]) == "number" then
+                        UIGradient.Rotation = btnInfoColor[2]
+                    end
+                    UIGradient.Parent = btnInfo
+                else
+                    btnInfo.TextColor3 = themeList.TextColor
+                end
                 Objects[btnInfo] = "TextColor3"
                 btnInfo.TextSize = 14.000
                 btnInfo.TextXAlignment = Enum.TextXAlignment.Left
