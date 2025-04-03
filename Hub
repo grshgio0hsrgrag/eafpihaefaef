@@ -810,6 +810,7 @@ function Kavo.CreateLib(kavName, themeList)
                         moreInfo.TextColor3 = themeList.TextColor
                         touch.ImageColor3 = themeList.SchemeColor
                         if Type ~= "Gradient" and Type ~= "table" then
+                            print(Type)
                             btnInfo.TextColor3 = themeList.TextColor
                         end
                     end
